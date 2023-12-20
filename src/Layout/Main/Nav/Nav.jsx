@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
@@ -19,7 +19,7 @@ const links = (
       <NavLink to={"/about"}>About</NavLink>
     </li>
     <li className="lg:hidden bg-green-500 text-center py-2 rounded-md">
-      <NavLink to={"/login"}>Login</NavLink>
+      <Link to={"/login"}>Login</Link>
     </li>
   </>
 );
@@ -43,11 +43,11 @@ const Nav = () => {
         >
           {links}
         </ul>
-        <NavLink to={"/login"}>
+        <Link to={"/login"}>
           <h3 className="font-semibold uppercase hidden lg:block py-2 px-5 bg-green-500 rounded-md hover:bg-gray-400 transition-colors">
             Login
           </h3>
-        </NavLink>
+        </Link>
         <div>
           <button
             className="lg:hidden"
