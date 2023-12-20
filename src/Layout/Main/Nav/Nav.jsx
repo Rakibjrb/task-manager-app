@@ -48,20 +48,18 @@ const Nav = () => {
             Login
           </h3>
         </Link>
-        <div>
-          <button
-            className="lg:hidden"
-            onClick={() => {
-              setMobileNav(!mobileNav);
-            }}
-          >
-            {mobileNav ? (
-              <IoCloseSharp className="text-xl" />
-            ) : (
-              <FaBarsStaggered className="text-xl" />
-            )}
-          </button>
-        </div>
+        <button
+          className="lg:hidden"
+          onClick={() => {
+            setMobileNav(!mobileNav);
+          }}
+        >
+          {mobileNav ? (
+            <IoCloseSharp className="text-xl" />
+          ) : (
+            <FaBarsStaggered className="text-xl" />
+          )}
+        </button>
       </div>
     </nav>
   );
