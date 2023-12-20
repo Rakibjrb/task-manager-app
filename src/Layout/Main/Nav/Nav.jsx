@@ -28,9 +28,9 @@ const Nav = () => {
   const [mobileNav, setMobileNav] = useState(false);
 
   return (
-    <nav className="max-w-7xl mx-auto py-5 flex justify-between px-4 xl:px-0">
+    <nav className="max-w-7xl mx-auto py-5 flex justify-between px-4 xl:px-0 text-white">
       <h3 className="text-xl uppercase font-bold">
-        Task <span className="text-green-600">Legend</span>
+        Task <span className="text-green-500">Legend</span>
       </h3>
       <div className="flex gap-5 items-center">
         <ul className="hidden gap-5 uppercase font-semibold lg:flex">
@@ -44,7 +44,7 @@ const Nav = () => {
           {links}
         </ul>
         <Link to={"/login"}>
-          <h3 className="font-semibold uppercase hidden lg:block py-2 px-5 bg-green-500 rounded-md hover:bg-gray-400 transition-colors">
+          <h3 className="font-semibold uppercase hidden lg:block py-2 px-5 text-black bg-green-500 rounded-md hover:bg-gray-400 transition-colors">
             Login
           </h3>
         </Link>
