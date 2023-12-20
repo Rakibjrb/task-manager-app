@@ -1,0 +1,4 @@
+.transition-effect:hover {
+  cursor: pointer;
+  transform: rotate(8deg);
+}
