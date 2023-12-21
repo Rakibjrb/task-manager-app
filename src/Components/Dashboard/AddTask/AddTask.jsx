@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { ImSpinner3 } from "react-icons/im";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/axios/useAxiosSecure";
+import moment from "moment";
 
 const AddTask = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +12,7 @@ const AddTask = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
@@ -26,6 +28,7 @@ const AddTask = () => {
       date: data?.date,
       priority: data?.priority === "none" ? "low" : data?.priority,
       status: "ongoing",
+      startDate: moment().format("Y-M-D"),
     };
 
     axiosSecure
@@ -33,6 +36,7 @@ const AddTask = () => {
       .then(() => {
         Swal.fire("Task added successfully ...");
         setLoading(false);
+        reset();
       })
       .catch((err) => {
         Swal.fire("Something went wrong !!!");
@@ -52,7 +56,7 @@ const AddTask = () => {
         </h1>
         <div className="mt-8 space-y-5 mb-4">
           <input
-            className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
+            className="w-full p-4 placeholder:text-gray-200 rounded-lg border border-green-400 outline-none text-green-400"
             type="text"
             placeholder="write task title"
             required
@@ -60,7 +64,7 @@ const AddTask = () => {
           />
           <textarea
             rows={5}
-            className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
+            className="w-full p-4 placeholder:text-gray-200 rounded-lg border border-green-400 outline-none text-green-400"
             placeholder="write task description"
             {...register("description")}
           ></textarea>
@@ -68,11 +72,11 @@ const AddTask = () => {
             <input
               {...register("date", { required: true })}
               type="date"
-              className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
+              className="w-full p-4 placeholder:text-gray-200 rounded-lg border border-green-400 outline-none text-green-400"
             />
             <select
               {...register("priority", { required: true })}
-              className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
+              className="w-full p-4 placeholder:text-gray-200 rounded-lg border border-green-400 outline-none text-green-400"
             >
               <option value="none">Select Priority</option>
               <option value="low">Low</option>

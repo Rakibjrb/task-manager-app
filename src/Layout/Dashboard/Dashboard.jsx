@@ -29,7 +29,9 @@ const Dashboard = () => {
           <Sidebar />
         </div>
         <div
-          className={`bg-black w-full ${showBar ? "hidden" : "pt-12 lg:pt-3"}`}
+          className={`bg-black w-full ${
+            showBar ? "hidden" : "pt-12 lg:pt-3 lg:pr-2"
+          }`}
         >
           <Outlet />
         </div>
