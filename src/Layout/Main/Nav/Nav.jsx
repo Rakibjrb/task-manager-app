@@ -84,7 +84,7 @@ const Nav = () => {
             </div>
             <ul
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              className="mt-3 z-[1] px-2 py-5 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 space-y-4"
             >
               <li>
                 <a className="justify-between">
@@ -93,7 +93,7 @@ const Nav = () => {
                 </a>
               </li>
               <li>
-                <a>Dashboard</a>
+                <Link to={"/dashboard/manage-task"}>Dashboard</Link>
               </li>
               <li>
                 <a onClick={logoutHandler}>Logout</a>

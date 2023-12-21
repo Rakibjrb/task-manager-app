@@ -6,6 +6,10 @@ import Benefits from "../Components/Home/Benefits/Benefits";
 import About from "../Components/Home/About/About";
 import SignUp from "../Pages/UserManagement/SignUp";
 import Login from "../Pages/UserManagement/Login";
+import Dashboard from "../Layout/Dashboard/Dashboard";
+import PrivateRoute from "./PrivateRoute";
+import ManageTask from "../Components/Dashboard/ManageTask/ManageTask";
+import AddTask from "../Components/Dashboard/AddTask/AddTask";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +39,24 @@ const router = createBrowserRouter([
       {
         path: "/create-account",
         element: <SignUp />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "manage-task",
+        element: <ManageTask />,
+      },
+      {
+        path: "add-task",
+        element: <AddTask />,
       },
     ],
   },
