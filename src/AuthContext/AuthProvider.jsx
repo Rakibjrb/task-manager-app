@@ -1,9 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import {
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import PropTypes from "prop-types";
 import auth from "../utilities/firebase.config.js";
@@ -17,11 +19,29 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
 
   const googleLogin = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleAuth);
   };
 
   const userLogout = () => {
+    setLoading(true);
     return signOut(auth);
+  };
+
+  const emailPasswordSignUp = (email, password) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const updateNameAndPhoto = (
+    name = "User19419",
+    photo = "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+  ) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
   };
 
   const authInfo = {
@@ -29,9 +49,12 @@ const AuthProvider = ({ children }) => {
     user,
     googleLogin,
     userLogout,
+    emailPasswordSignUp,
+    updateNameAndPhoto,
   };
 
   useEffect(() => {
+    setLoading(true);
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
