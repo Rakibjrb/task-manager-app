@@ -1,13 +1,17 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Feature from "./Feature";
+import useAxiosPublic from "../../../Hooks/axios/useAxiosPublic";
 
 const Features = () => {
-  const [features, setFeatures] = useState([]);
+  const axiosPublic = useAxiosPublic();
 
-  useEffect(() => {
-    axios.get("./features.json").then((res) => setFeatures(res.data));
-  }, []);
+  const { data: features } = useQuery({
+    queryKey: ["getfeatures"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/features");
+      return res.data;
+    },
+  });
 
   return (
     <div

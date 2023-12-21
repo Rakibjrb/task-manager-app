@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../Hooks/axios/useAxiosPublic";
 import benefitsImg from "../../../assets/benefit/benefit.svg";
 import Benefit from "./Benefit";
 
 const Benefits = () => {
-  const [benefits, setBenefits] = useState([]);
+  const axiosPublic = useAxiosPublic();
 
-  useEffect(() => {
-    axios.get("./benefits.json").then((res) => setBenefits(res.data));
-  }, []);
+  const { data: benefits } = useQuery({
+    queryKey: ["getbenefits"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/benefits");
+      return res.data;
+    },
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 xl:px-0 font-playpen mt-32 text-white">
