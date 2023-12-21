@@ -1,37 +1,55 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import "./nav.css";
-
-const links = (
-  <>
-    <li>
-      <NavLink to={"/"}>Home</NavLink>
-    </li>
-    <li>
-      <NavLink to={"/features"}>Features</NavLink>
-    </li>
-    <li>
-      <NavLink to={"/benefits"}>Benefits</NavLink>
-    </li>
-    <li>
-      <NavLink to={"/about"}>About</NavLink>
-    </li>
-    <Link
-      to={"/login"}
-      className="bg-green-500 text-center py-2 rounded-md w-full lg:hidden text-black"
-    >
-      Login
-    </Link>
-  </>
-);
+import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Nav = () => {
   const [mobileNav, setMobileNav] = useState(false);
+  const { user, userLogout } = useAuth();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    userLogout()
+      .then(() => {
+        Swal.fire("Logged out ...");
+        navigate("/");
+      })
+      .catch((err) => {
+        Swal.fire("Something went wrong !!!");
+        console.log(err);
+      });
+  };
+
+  const links = (
+    <>
+      <li>
+        <NavLink to={"/"}>Home</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/features"}>Features</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/benefits"}>Benefits</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/about"}>About</NavLink>
+      </li>
+      {!user && (
+        <Link
+          to={"/login"}
+          className="bg-green-500 text-center py-2 rounded-md w-full lg:hidden text-black"
+        >
+          Login
+        </Link>
+      )}
+    </>
+  );
 
   return (
-    <nav className="max-w-7xl mx-auto py-5 md:py-8 flex justify-between px-4 xl:px-0 text-white">
+    <nav className="max-w-7xl mx-auto py-5 md:py-8 flex items-center justify-between px-4 xl:px-0 text-white">
       <h3 className="text-xl uppercase font-bold">
         Task <span className="text-green-500">Legend</span>
       </h3>
@@ -46,11 +64,49 @@ const Nav = () => {
         >
           {links}
         </ul>
-        <Link to={"/login"}>
-          <h3 className="font-semibold uppercase hidden lg:block py-2 px-5 text-black bg-green-500 rounded-md hover:bg-gray-400 transition-colors">
-            Login
-          </h3>
-        </Link>
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="user image"
+                  src={
+                    user
+                      ? user?.photoURL
+                      : "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  }
+                />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a className="justify-between">
+                  {user?.displayName}
+                  <span className="badge">User</span>
+                </a>
+              </li>
+              <li>
+                <a>Dashboard</a>
+              </li>
+              <li>
+                <a onClick={logoutHandler}>Logout</a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <Link to={"/login"}>
+            <h3 className="font-semibold uppercase hidden lg:block py-2 px-5 text-black bg-green-500 rounded-md hover:bg-gray-400 transition-colors">
+              Login
+            </h3>
+          </Link>
+        )}
         <button
           className="lg:hidden"
           onClick={() => {
