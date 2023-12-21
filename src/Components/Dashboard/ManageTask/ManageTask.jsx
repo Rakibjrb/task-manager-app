@@ -21,7 +21,9 @@ const ManageTask = () => {
 
   useEffect(() => {
     const newTasks = tasks?.filter(
-      (task) => task?.startDate === moment().format("Y-M-D")
+      (task) =>
+        task?.startDate === moment().format("Y-M-D") &&
+        task?.status !== "completed"
     );
     setNewTask(newTasks);
 
@@ -50,51 +52,67 @@ const ManageTask = () => {
       <div className="flex justify-center my-12">
         <div className="h-1 w-3/4 bg-green-300"></div>
       </div>
-      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-3">
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
         <div className="p-3 rounded-lg border border-green-400">
           <h3 className="text-green-500 text-2xl uppercase font-semibold mb-5">
             New
           </h3>
-          <div className="flex flex-col gap-6">
-            {newTask?.map((task, index) => (
-              <Task
-                key={`${task._id}-_-${index}`}
-                task={task}
-                index={index}
-                taskRefetch={taskRefetch}
-              />
-            ))}
-          </div>
+          {newTask?.length ? (
+            <div className="flex flex-col gap-6">
+              {newTask?.map((task, index) => (
+                <Task
+                  key={`${task._id}-_-${index}`}
+                  task={task}
+                  index={index}
+                  taskRefetch={taskRefetch}
+                />
+              ))}
+            </div>
+          ) : (
+            <h3 className="text-white text-xl">No new tasks available ...</h3>
+          )}
         </div>
         <div className="p-3 rounded-lg border border-green-400">
           <h3 className="text-green-500 text-2xl uppercase font-semibold mb-5">
             Ongoing
           </h3>
-          <div className="flex flex-col gap-6">
-            {ongoingTask?.map((task, index) => (
-              <Task
-                key={`${task._id}-_${index}`}
-                task={task}
-                index={index}
-                taskRefetch={taskRefetch}
-              />
-            ))}
-          </div>
+          {ongoingTask?.length ? (
+            <div className="flex flex-col gap-6">
+              {ongoingTask?.map((task, index) => (
+                <Task
+                  key={`${task._id}-_${index}`}
+                  task={task}
+                  index={index}
+                  taskRefetch={taskRefetch}
+                />
+              ))}
+            </div>
+          ) : (
+            <h3 className="text-white text-xl">
+              No ongoing tasks available ...
+            </h3>
+          )}
         </div>
         <div className="p-3 rounded-lg border border-green-400">
           <h3 className="text-green-500 text-2xl uppercase font-semibold mb-5">
             Completed
           </h3>
-          <div className="flex flex-col gap-6">
-            {completedTask?.map((task, index) => (
-              <Task
-                key={`${task._id}-${index}`}
-                task={task}
-                index={index}
-                taskRefetch={taskRefetch}
-              />
-            ))}
-          </div>
+          {completedTask?.length ? (
+            <div className="flex flex-col gap-6">
+              {completedTask?.map((task, index) => (
+                <Task
+                  key={`${task._id}-${index}`}
+                  task={task}
+                  index={index}
+                  taskRefetch={taskRefetch}
+                />
+              ))}
+            </div>
+          ) : (
+            <h3 className="text-white text-xl">
+              No completed tasks available ...
+            </h3>
+          )}
         </div>
       </div>
     </>
