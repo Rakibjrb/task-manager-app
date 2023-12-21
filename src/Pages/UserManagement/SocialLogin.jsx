@@ -1,15 +1,18 @@
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 // import { FaGithub } from "react-icons/fa6";
-import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
 
 const SocialLogin = () => {
   const { googleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const handleGoogleLogin = () => {
     googleLogin()
       .then(() => {
         Swal.fire("Google Login Success ...");
+        navigate("/");
       })
       .catch((err) => {
         Swal.fire("Something went wrong !!!");
