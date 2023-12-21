@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
 import useAxiosSecure from "../../../Hooks/axios/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import Task from "./Task";
@@ -20,11 +19,7 @@ const ManageTask = () => {
   });
 
   useEffect(() => {
-    const newTasks = tasks?.filter(
-      (task) =>
-        task?.startDate === moment().format("Y-M-D") &&
-        task?.status !== "completed"
-    );
+    const newTasks = tasks?.filter((task) => task?.status === "todo");
     setNewTask(newTasks);
 
     const ongoing = tasks?.filter((task) => task?.status === "ongoing");
@@ -55,7 +50,7 @@ const ManageTask = () => {
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
         <div className="p-3 rounded-lg border border-green-400">
           <h3 className="text-green-500 text-2xl uppercase font-semibold mb-5">
-            New
+            To do
           </h3>
           {newTask?.length ? (
             <div className="flex flex-col gap-6">
@@ -69,7 +64,7 @@ const ManageTask = () => {
               ))}
             </div>
           ) : (
-            <h3 className="text-white text-xl">No new tasks available ...</h3>
+            <h3 className="text-white text-xl">No to do tasks available ...</h3>
           )}
         </div>
         <div className="p-3 rounded-lg border border-green-400">

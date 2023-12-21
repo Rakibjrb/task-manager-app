@@ -27,7 +27,7 @@ const AddTask = () => {
       description: data?.description,
       date: data?.date,
       priority: data?.priority === "none" ? "low" : data?.priority,
-      status: "ongoing",
+      status: "todo",
       startDate: moment().format("Y-M-D"),
     };
 
