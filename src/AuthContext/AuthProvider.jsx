@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import PropTypes from "prop-types";
 import auth from "../utilities/firebase.config.js";
+import useAxiosPublic from "../Hooks/axios/useAxiosPublic.jsx";
 
 export const AuthContext = createContext(null);
 
@@ -18,6 +19,7 @@ const googleAuth = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState();
+  const axiosPublic = useAxiosPublic();
 
   const googleLogin = () => {
     setLoading(true);
@@ -64,6 +66,20 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
+
+      if (!user) {
+        localStorage.removeItem("token");
+      } else {
+        axiosPublic
+          .post("/create-token", { email: user?.email })
+          .then((res) => {
+            const token = res?.data?.token;
+            localStorage.setItem("token", token);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     });
 
     return () => unSubscribe();
