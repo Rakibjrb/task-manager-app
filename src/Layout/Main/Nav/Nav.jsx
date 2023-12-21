@@ -18,9 +18,12 @@ const links = (
     <li>
       <NavLink to={"/about"}>About</NavLink>
     </li>
-    <li className="lg:hidden bg-green-500 text-center py-2 rounded-md">
-      <Link to={"/login"}>Login</Link>
-    </li>
+    <Link
+      to={"/login"}
+      className="bg-green-500 text-center py-2 rounded-md w-full lg:hidden text-black"
+    >
+      Login
+    </Link>
   </>
 );
 
@@ -28,7 +31,7 @@ const Nav = () => {
   const [mobileNav, setMobileNav] = useState(false);
 
   return (
-    <nav className="max-w-7xl mx-auto py-5 flex justify-between px-4 xl:px-0 text-white">
+    <nav className="max-w-7xl mx-auto py-5 md:py-8 flex justify-between px-4 xl:px-0 text-white">
       <h3 className="text-xl uppercase font-bold">
         Task <span className="text-green-500">Legend</span>
       </h3>
@@ -37,7 +40,7 @@ const Nav = () => {
           {links}
         </ul>
         <ul
-          className={`${
+          className={`z-50 ${
             mobileNav ? "" : "hidden"
           } lg:hidden uppercase absolute right-0 top-14 bg-base-300 py-10 px-8 w-[290px] flex flex-col gap-3 rounded-lg`}
         >
