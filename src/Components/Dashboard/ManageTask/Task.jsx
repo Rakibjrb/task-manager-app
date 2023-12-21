@@ -1,6 +1,23 @@
 import PropTypes from "prop-types";
+import useAxiosSecure from "../../../Hooks/axios/useAxiosSecure";
+import Swal from "sweetalert2";
 
-const Task = ({ task, index }) => {
+const Task = ({ task, index, taskRefetch }) => {
+  const axiosSecure = useAxiosSecure();
+
+  const handleDeleteTask = (id) => {
+    axiosSecure
+      .delete(`/tasks/${id}`)
+      .then(() => {
+        Swal.fire("Task Deleted ...");
+        taskRefetch();
+      })
+      .catch((err) => {
+        Swal.fire("Something went wrong !!!");
+        console.log(err);
+      });
+  };
+
   return (
     <div className=" text-black rounded-lg p-3 bg-white space-y-5 shadow-lg shadow-white">
       <h2 className="text-xl font-bold uppercase text-black">
@@ -17,7 +34,10 @@ const Task = ({ task, index }) => {
       </div>
       <p className="text-black">{task?.description}</p>
       <div className="grid grid-cols-2 gap-5">
-        <button className="btn bg-red-300 text-black hover:text-white">
+        <button
+          onClick={() => handleDeleteTask(task?._id)}
+          className="btn bg-red-300 text-black hover:text-white"
+        >
           Delete
         </button>
         <button className="btn bg-green-400 text-black hover:text-white">
@@ -31,5 +51,6 @@ const Task = ({ task, index }) => {
 Task.propTypes = {
   task: PropTypes.object,
   index: PropTypes.number,
+  taskRefetch: PropTypes.func,
 };
 export default Task;

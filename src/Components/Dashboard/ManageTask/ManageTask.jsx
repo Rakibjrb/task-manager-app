@@ -11,7 +11,7 @@ const ManageTask = () => {
   const [completedTask, setCompletedTask] = useState([]);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: tasks } = useQuery({
+  const { data: tasks, refetch: taskRefetch } = useQuery({
     queryKey: ["alltasks"],
     queryFn: async () => {
       const res = await axiosSecure.get("/tasks");
@@ -57,7 +57,12 @@ const ManageTask = () => {
           </h3>
           <div className="flex flex-col gap-6">
             {newTask?.map((task, index) => (
-              <Task key={`${task._id}-_-${index}`} task={task} index={index} />
+              <Task
+                key={`${task._id}-_-${index}`}
+                task={task}
+                index={index}
+                taskRefetch={taskRefetch}
+              />
             ))}
           </div>
         </div>
@@ -67,7 +72,12 @@ const ManageTask = () => {
           </h3>
           <div className="flex flex-col gap-6">
             {ongoingTask?.map((task, index) => (
-              <Task key={`${task._id}-_${index}`} task={task} index={index} />
+              <Task
+                key={`${task._id}-_${index}`}
+                task={task}
+                index={index}
+                taskRefetch={taskRefetch}
+              />
             ))}
           </div>
         </div>
@@ -77,7 +87,12 @@ const ManageTask = () => {
           </h3>
           <div className="flex flex-col gap-6">
             {completedTask?.map((task, index) => (
-              <Task key={`${task._id}-${index}`} task={task} index={index} />
+              <Task
+                key={`${task._id}-${index}`}
+                task={task}
+                index={index}
+                taskRefetch={taskRefetch}
+              />
             ))}
           </div>
         </div>
