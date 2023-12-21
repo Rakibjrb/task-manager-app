@@ -1,7 +1,46 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { ImSpinner3 } from "react-icons/im";
+import useAxiosPublic from "../../../Hooks/axios/useAxiosPublic";
+import useAuth from "../../../Hooks/useAuth";
+
 const AddTask = () => {
+  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit } = useForm();
+  const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
+
+  const onSubmit = (data) => {
+    setLoading(true);
+    const taskData = {
+      email: user?.email,
+      title: data?.title,
+      description: data?.description,
+      date: data?.date,
+      priority: data?.priority === "none" ? "low" : data?.priority,
+      status: "ongoing",
+    };
+
+    axiosPublic
+      .post("/tasks", taskData)
+      .then(() => {
+        Swal.fire("Task added successfully ...");
+        setLoading(false);
+      })
+      .catch((err) => {
+        Swal.fire("Something went wrong !!!");
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="md:min-h-screen flex items-center justify-center">
-      <form className="md:w-[400px] lg:w-[600px] bg-transparent border border-green-400 px-4 py-8 rounded-lg">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="md:w-[400px] lg:w-[600px] bg-transparent border border-green-400 px-4 py-8 rounded-lg"
+      >
         <h1 className="text-4xl text-green-400 text-center font-bold">
           Add a Task
         </h1>
@@ -11,18 +50,24 @@ const AddTask = () => {
             type="text"
             placeholder="write task title"
             required
+            {...register("title")}
           />
           <textarea
             rows={5}
             className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
             placeholder="write task description"
+            {...register("description")}
           ></textarea>
           <div className="flex gap-4">
             <input
+              {...register("date")}
               type="date"
               className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
             />
-            <select className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400">
+            <select
+              {...register("priority")}
+              className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
+            >
               <option value="none">Select Priority</option>
               <option value="low">Low</option>
               <option value="moderate">Moderate</option>
@@ -31,7 +76,11 @@ const AddTask = () => {
           </div>
         </div>
         <button className="w-full hover:bg-slate-400 rounded-lg bg-green-400 text-black uppercase btn">
-          Add Now
+          {loading ? (
+            <ImSpinner3 className="text-xl animate-spin" />
+          ) : (
+            "Add Now"
+          )}
         </button>
       </form>
     </div>
