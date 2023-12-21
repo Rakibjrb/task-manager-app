@@ -1,5 +1,5 @@
 const ManageTask = () => {
-  return <div className="max-w-7xl mx-auto">Manage Task</div>;
+  return <div>Manage Task</div>;
 };
 
 export default ManageTask;
