@@ -2,14 +2,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { ImSpinner3 } from "react-icons/im";
-import useAxiosPublic from "../../../Hooks/axios/useAxiosPublic";
 import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/axios/useAxiosSecure";
 
 const AddTask = () => {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm();
-  const axiosPublic = useAxiosPublic();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+
+  errors?.date && Swal.fire("Date is required");
 
   const onSubmit = (data) => {
     setLoading(true);
@@ -22,7 +28,7 @@ const AddTask = () => {
       status: "ongoing",
     };
 
-    axiosPublic
+    axiosSecure
       .post("/tasks", taskData)
       .then(() => {
         Swal.fire("Task added successfully ...");
@@ -60,12 +66,12 @@ const AddTask = () => {
           ></textarea>
           <div className="flex gap-4">
             <input
-              {...register("date")}
+              {...register("date", { required: true })}
               type="date"
               className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
             />
             <select
-              {...register("priority")}
+              {...register("priority", { required: true })}
               className="w-full p-4 placeholder:text-green-400 rounded-lg border border-green-400 outline-none text-green-400"
             >
               <option value="none">Select Priority</option>
