@@ -28,7 +28,9 @@ const Dashboard = () => {
         <div className={`hidden lg:block`}>
           <Sidebar />
         </div>
-        <div className={`bg-black w-full ${showBar ? "" : "pt-12 lg:pt-3"}`}>
+        <div
+          className={`bg-black w-full ${showBar ? "hidden" : "pt-12 lg:pt-3"}`}
+        >
           <Outlet />
         </div>
       </div>
