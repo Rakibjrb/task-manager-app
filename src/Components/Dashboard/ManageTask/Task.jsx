@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import useAxiosSecure from "../../../Hooks/axios/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useDrag } from "react-dnd";
+import { Link } from "react-router-dom";
 
 const Task = ({ task, index, taskRefetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -54,9 +55,12 @@ const Task = ({ task, index, taskRefetch }) => {
         >
           Delete
         </button>
-        <button className="btn bg-green-400 text-black hover:text-white">
+        <Link
+          to={`/dashboard/task/edit/${task?._id}`}
+          className="btn bg-green-400 text-black hover:text-white"
+        >
           Edit
-        </button>
+        </Link>
       </div>
     </div>
   );
