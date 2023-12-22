@@ -12,7 +12,7 @@ const SocialLogin = () => {
     googleLogin()
       .then(() => {
         Swal.fire("Google Login Success ...");
-        navigate("/");
+        navigate("/dashboard/manage-task");
       })
       .catch((err) => {
         Swal.fire("Something went wrong !!!");

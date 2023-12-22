@@ -13,15 +13,19 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { emailPasswordSignUp, loading, updateNameAndPhoto } = useAuth();
+  const { emailPasswordSignUp, loading, updateNameAndPhoto, userLogout } =
+    useAuth();
 
   const onSubmit = (data) => {
     emailPasswordSignUp(data?.email, data?.password)
       .then(() => {
         updateNameAndPhoto(data?.name)
           .then(() => {
-            Swal.fire("User account created ...");
-            navigate("/");
+            Swal.fire(
+              "User account creation successfull ... login to your account"
+            );
+            userLogout();
+            navigate("/login");
           })
           .catch((err) => {
             Swal.fire("Something went wrong !!!");

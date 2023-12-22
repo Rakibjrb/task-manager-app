@@ -49,7 +49,11 @@ const Nav = () => {
   );
 
   return (
-    <nav className="max-w-7xl mx-auto py-5 md:py-8 flex items-center justify-between px-4 xl:px-0 text-white">
+    <nav
+      data-aos="fade-down"
+      data-aos-duration="2000"
+      className="max-w-7xl mx-auto py-5 md:py-8 flex items-center justify-between px-4 xl:px-0 text-white"
+    >
       <h3 className="text-xl uppercase font-bold">
         Task <span className="text-green-500">Legend</span>
       </h3>

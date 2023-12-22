@@ -23,7 +23,7 @@ const Login = () => {
       .then(() => {
         setLoading(false);
         Swal.fire("User login success ...");
-        navigate("/");
+        navigate("/dashboard/manage-task");
       })
       .catch((err) => {
         setLoading(false);
