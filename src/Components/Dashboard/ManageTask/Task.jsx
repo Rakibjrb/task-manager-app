@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import useAxiosSecure from "../../../Hooks/axios/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useDrag } from "react-dnd";
 
 const Task = ({ task, index, taskRefetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -18,8 +19,21 @@ const Task = ({ task, index, taskRefetch }) => {
       });
   };
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "task",
+    item: { id: task?._id },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   return (
-    <div className=" text-black rounded-lg p-3 bg-white space-y-5 shadow-lg shadow-white">
+    <div
+      ref={drag}
+      className={`${
+        isDragging ? "opacity-50" : "opacity-100"
+      } cursor-pointer text-black rounded-lg p-3 bg-white space-y-5 shadow-lg shadow-white`}
+    >
       <h2 className="text-xl font-bold uppercase text-black">
         {index + 1}. {task?.title}
       </h2>
